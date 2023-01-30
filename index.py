@@ -7,6 +7,7 @@ dirPath = pathlib.Path().resolve()
 inputFile = sys.argv[1]
 outFileName = sys.argv[2]
 
+
 file = open(inputFile,'r')
 out = open(outFileName+'.js','w')
 
@@ -15,8 +16,9 @@ global_varible = []
 
 prev = 0
 
+lineNumber = 0
 for line in file.readlines():
-    if len(line.strip()) > 0:
+    if len(line.strip()) > 0 and lineNumber >= 5:
         currentIndetation = removingIndentation(line)
         
         if currentIndetation > prev:
@@ -50,6 +52,7 @@ for line in file.readlines():
                     line = line.replace(keyWord,keyWords[keyWord])
         out.writelines(line)
         prev = currentIndetation
+    lineNumber += 1
              
 if len(global_indentation) != 0:
     out.writelines('\n'+function.makingIndenation(0))

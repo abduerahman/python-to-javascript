@@ -1,4 +1,4 @@
-keyWords = {
+    keyWords = {
     'print':'console.log',
     ' and ' : '&&',
     ' or ' :'||',
