@@ -1,4 +1,4 @@
-    keyWords = {
+keyWords = {
     'print':'console.log',
     ' and ' : '&&',
     ' or ' :'||',
@@ -6,5 +6,7 @@
     'min':'Math.min',
     'def ' : 'function ',
     ':': '{',
-    '#' : '//'
+    '#' : '//',
+    'self':'this',
+    '__init__':'constructor',
 }

@@ -38,7 +38,7 @@ for line in file.readlines():
         if (line.count('for ')) > 0 and line.count('range(') > 0:
             line = ' '* (currentIndetation -1) + convertingForloop(line)+'\n'
             
-        if(function.varibleDeclration(line,currentIndetation) != None):
+        elif(line.count('for ') ==0 and line.count('if ') == 0 and  function.varibleDeclration(line,currentIndetation) != None):
             varible = function.varibleDeclration(line,currentIndetation)
             v = [varible[1],varible[2]]
             if( v not in global_varible):
@@ -53,8 +53,8 @@ for line in file.readlines():
         out.writelines(line)
         prev = currentIndetation
     lineNumber += 1
-             
-if len(global_indentation) != 0:
+         
+if len(global_indentation) > 1:
     out.writelines('\n'+function.makingIndenation(0))
     
 out.close()
