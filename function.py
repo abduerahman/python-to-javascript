@@ -40,7 +40,7 @@ def varibleDeclration(declration,indentation):
     statment = declration.strip()
     s = re.search('\w+ *= *(\w+|\W+)',statment)
     if s != None:
-        return [' '*(indentation-1)+'let '+statment,statment[0:statment.index('=')].replace(' ',''),indentation]
+        return [' '*(indentation*globalIndenation)+'let '+statment,statment[0:statment.index('=')].replace(' ',''),indentation]
     return None
 
 def gettingParmater(statment,global_varible,indenation):

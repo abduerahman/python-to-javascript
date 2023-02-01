@@ -1,6 +1,6 @@
 from keyWords import keyWords,BreakKeyWords
 from function import convertingForloop,removingIndentation
-import function,datetime,pathlib,sys,re
+import function,pathlib,sys,re
 
 dirPath = pathlib.Path().resolve()
 
@@ -20,7 +20,6 @@ lineNumber = 0
 for line in file.readlines():
     if len(line.strip()) > 0 and lineNumber >= 5:
         currentIndetation = removingIndentation(line)
-        
         if currentIndetation < prev :
             praketIndentation = 100000
             while praketIndentation > currentIndetation-1:
@@ -59,6 +58,8 @@ for line in file.readlines():
         prev = currentIndetation
     lineNumber += 1
 
-for i in range(len(global_indentation)):
-    praket = global_indentation.pop()
+out.writelines('\n')
+s = list(set(global_indentation))
+for i in range(len(s)):
+    praket = s.pop()
     out.writelines(function.makingIndenation(praket))
