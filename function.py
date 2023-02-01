@@ -1,9 +1,11 @@
 import re;
 
-def convertingForloop(str):
+globalIndenation = 4
+
+def convertingForloop(str,indentation):
     value = str.split(' ')
     value = convertRange(value[len(value) - 1])
-    return 'for (let i =%d; i < %d; i += %d ) {' % (value[0],value[1],value[2])
+    return ' '*(indentation*globalIndenation)+'for (let i =%d; i < %d; i += %d ) {' % (value[0],value[1],value[2])
     
 def convertRange(str):
     r = re.search('\(',str).span()
@@ -29,10 +31,10 @@ def initilizeValues(str):
 
 
 def removingIndentation(str):
-    return len(str) - len(str.strip())
+    return int( (len(str) - len(str.strip())) / globalIndenation)
 
 def makingIndenation(indentation):
-    return ' '*(indentation)+'}'+'\n'
+    return ' '*(indentation*globalIndenation)+'}'+'\n'
 
 def varibleDeclration(declration,indentation):
     statment = declration.strip()
@@ -48,3 +50,8 @@ def gettingParmater(statment,global_varible,indenation):
     for s in statment:
         global_varible.append([s,indenation+4])
     return global_varible
+
+def convertingIfStatment(string,indentation):
+    start = re.search('(else if|if)\W+',string).span()
+    if(start != None):
+       return  (' '*int(indentation))+string[0:start[1]]+ '('+ string[start[1]:len(string) - 2] + ' ) {' +'\n'

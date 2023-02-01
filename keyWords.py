@@ -1,4 +1,5 @@
 keyWords = {
+    'elif':'else if',
     'print':'console.log',
     ' and ' : '&&',
     ' or ' :'||',
@@ -6,7 +7,7 @@ keyWords = {
     'min':'Math.min',
     'def ' : 'function ',
     ':': '{',
-    '#' : '//',
-    'self':'this',
-    '__init__':'constructor',
+    '#' : '//'
 }
+
+BreakKeyWords = ['elif','if','for','else','def']

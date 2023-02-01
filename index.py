@@ -1,6 +1,6 @@
-from keyWords import keyWords
+from keyWords import keyWords,BreakKeyWords
 from function import convertingForloop,removingIndentation
-import function,datetime,pathlib,sys
+import function,datetime,pathlib,sys,re
 
 dirPath = pathlib.Path().resolve()
 
@@ -21,22 +21,24 @@ for line in file.readlines():
     if len(line.strip()) > 0 and lineNumber >= 5:
         currentIndetation = removingIndentation(line)
         
-        if currentIndetation > prev:
-            global_indentation.append(currentIndetation)
+        if currentIndetation < prev :
+            praketIndentation = 100000
+            while praketIndentation > currentIndetation-1:
+                praketIndentation = global_indentation.pop()
+                if(praketIndentation == currentIndetation - 1):
+                   global_indentation.append(praketIndentation)
+                   break
+                out.writelines(function.makingIndenation(praketIndentation))
+                if(len(global_indentation) == 0):
+                    break
+   
+
+        for i in BreakKeyWords:
+            if(line.count(i) > 0):
+                global_indentation.append(currentIndetation)
         
-        if currentIndetation < prev and prev- currentIndetation > 1:
-    
-            if len(global_indentation) == 0:
-                global_indentation.append(0)
-            global_indentation.pop()
-            if(len(global_indentation) == 0):
-                global_indentation.append(0)
-                
-            praketIndentation = global_indentation.pop()
-            out.writelines(function.makingIndenation(praketIndentation - 1))
-            
         if (line.count('for ')) > 0 and line.count('range(') > 0:
-            line = ' '* (currentIndetation -1) + convertingForloop(line)+'\n'
+            line = ' '* (currentIndetation -1) + convertingForloop(line,currentIndetation)+'\n'
             
         elif(line.count('for ') ==0 and line.count('if ') == 0 and  function.varibleDeclration(line,currentIndetation) != None):
             varible = function.varibleDeclration(line,currentIndetation)
@@ -50,11 +52,13 @@ for line in file.readlines():
                     global_varible = function.gettingParmater(line,global_varible,currentIndetation)
                 if(line.count(keyWord) > 0):
                     line = line.replace(keyWord,keyWords[keyWord])
+        if (re.search('(else if|if)\W+',line) != None):
+            line = function.convertingIfStatment(line,currentIndetation)
+
         out.writelines(line)
         prev = currentIndetation
     lineNumber += 1
-         
-if len(global_indentation) > 1:
-    out.writelines('\n'+function.makingIndenation(0))
-    
-out.close()
+
+for i in range(len(global_indentation)):
+    praket = global_indentation.pop()
+    out.writelines(function.makingIndenation(praket))
